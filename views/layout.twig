@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
+    <title>Modulo Juridico</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css"/>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"></script>
+
+      <style>
+          header{
+              background-color: #f8f8f8;
+          }
+
+            div.logo img{
+                width: 100%;
+            }
+          p{
+              font-family: helvetica;
+          }
+      </style>
+  </head>
+  <body>
+    <header>
+      <div class="row">
+        <div class="col l2 logo">
+          <img src="./public/images/Logotipo.png">
+        </div>
+        <div class="col l2">
+          <p>cuenta publica 2016</p>
+        </div>
+        <div class="col l3">
+          <p>DASHBOARD</p>
+        </div>
+        <div class="col l2">
+          <p>  notificaciones</p>
+        </div>
+        <div class="col l3">
+          <p>  JUAN CARLOS RAMIREZ USTARROZ</p>
+        </div>
+      </div>
+    </header>
+
+    <a href="./Caracteres/add">Agregar</a>
+
+    {% block table %}{% endblock %}
+    {% block form %}{% endblock %}
+
+  </body>
+</html>

@@ -1,0 +1,10 @@
+{% extends "layout.twig" %}
+
+
+{% block form %}
+    <form method="post" action="./add">
+        <input type="text" name="siglas">
+        <input type="text" placeholder="nombre" name="nombre">
+        <input type="submit" value="enviar">
+    </form>
+{% endblock %}
