@@ -19,14 +19,15 @@ class SubTiposDocumentosController extends BaseController {
         ]);
     }
 
-    public function getUpdate($id) {
+    public function getUpdate($id,$err) {
         $subTipos = SubTiposDocumentos::where('idSubTipoDocumento',$id)->first();
         $tiposDocumentos = TiposDocumentos::where('tipo','JURIDICO')->get();
 
         return $this->render('/subTiposDocumentos/update-subTiposDocumentos.twig',[
             'sesiones'=> $_SESSION,
             'documentos' => $tiposDocumentos,
-            'subtipos' => $subTipos
+            'subtipos' => $subTipos,
+            'error' => $err
         ]);
 
     }
@@ -45,17 +46,33 @@ class SubTiposDocumentosController extends BaseController {
             echo $this->getIndex();
 
        }
-/*
-       public function caracterUpdate($post) {
-        $fecha=strftime( "%Y-%d-%m", time() );
-        Caracteres::where('idCaracter',$post['idCaracter'])->update([
-            'siglas' =>$post['siglas'],
-            'nombre' => $post['nombre'],
-            'usrModificacion' => $_SESSION['idUsuario'],
-            'fModificacion' => $fecha
-         ]);
-         echo $this->getIndex();
 
-    }*/
+       public function SubTiposDocumentosUpdate($post) {
+        $duplicate = $this->duplicate($post);
+        if(empty($duplicate)){
+            $fecha=strftime( "%Y-%d-%m", time() );
+            SubTiposDocumentos::where('idSubTipoDocumento',$post['idSubTipoDocumento'])->update([
+                'idTipoDocto' =>$post['idTipoDocto'],
+                'nombre' => $post['nombre'],
+                'auditoria' => $post['auditoria'],
+                'estatus' => $post['estatus'],
+                'usrModificacion' => $_SESSION['idUsuario'],
+                'fModificacion' => $fecha
+            ]);
+            echo $this->getIndex();
+        }else{
+            echo $this->getUpdate($post['idSubTipoDocumento'],true);
+        }
+
+
+    }
+
+    public function duplicate($post) {
+        $duplicate = SubTiposDocumentos::where('idTipoDocto',$post['idTipoDocto'])
+            ->where('nombre' ,$post['nombre'])
+            ->where('auditoria',$post['auditoria'])
+            ->where('estatus',$post['estatus'])->first();
+        return $duplicate;
+    }
 
 }

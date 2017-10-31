@@ -19,13 +19,12 @@ $app->post('/juridico/SubTiposDocumentos/add',function() use ($app){
 
 
 $app->get('/juridico/SubTiposDocumentos/update',function() use ($app){
-    $id='22';
-   $get = new SubTiposDocumentosController();
-    echo $get->getUpdate($id);
+    $id='19';
+    $get = new SubTiposDocumentosController();
+    echo $get->getUpdate($id,false);
 });
-/*
-$app->post('/juridico/Caracteres/update',function() use ($app){
-    $get = new CaracteresController();
-    echo $get->caracterUpdate($app->request->post());
+
+$app->post('/juridico/SubTiposDocumentos/update',function() use ($app){
+    $get = new SubTiposDocumentosController();
+    echo $get->SubTiposDocumentosUpdate($app->request->post());
 });
-*/

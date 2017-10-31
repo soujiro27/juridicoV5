@@ -11,9 +11,14 @@ class BaseController {
             'debug' => true,
             'cache' => false
         ]);
+
+        $this->templateEngine->addFilter(new \Twig_SimpleFilter('trim',function($cadena){
+            return trim($cadena);
+        }));
     }
 
     public function render($fileName, $data = []) {
         return $this->templateEngine->render($fileName, $data);
     }
+
 }
