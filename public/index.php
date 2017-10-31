@@ -6,8 +6,9 @@ include_once '/../app/routes/doctosTextos/rutasDoctosTextos.php';
 include_once '/../app/routes/subTiposDocumentos/rutasSubTiposDocumentos.php';
 include_once '/../app/routes/acciones/rutasAcciones.php';
 include_once  '/../app/routes/volantes/rutasVolantes.php';
+include_once  '/../app/routes/volantesDiversos/rutasVolantesDiversos.php';
+include_once  '/../app/routes/documentos/rutasDocumentos.php';
 
-use  App\Controllers\Catalogs\Caracteres\CaracteresController;
 
 use Illuminate\Database\Capsule\Manager as Capsule;
 

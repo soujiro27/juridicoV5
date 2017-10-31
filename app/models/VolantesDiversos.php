@@ -1,7 +1,6 @@
 <?php
 namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\Caracteres;
 class Volantes extends Model {
     public $timestamps = false;
     protected $table = 'sia_Volantes';

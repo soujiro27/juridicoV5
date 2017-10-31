@@ -8,8 +8,6 @@ use App\Models\Volantes;
      protected $table = 'sia_catCaracteres';
      protected $fillable = ['siglas', 'nombre','usrAlta','fAlta','estatus'];
 
-     public function volantes() {
-         return $this->hasMany('App\Models\Volantes');
-     }
+
 
  }

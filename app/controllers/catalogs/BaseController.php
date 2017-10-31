@@ -15,6 +15,12 @@ class BaseController {
         $this->templateEngine->addFilter(new \Twig_SimpleFilter('trim',function($cadena){
             return trim($cadena);
         }));
+
+
+        $this->templateEngine->addFilter(new \Twig_SimpleFilter('hora',function($cadena){
+            return substr($cadena,0,-11);
+
+        }));
     }
 
     public function render($fileName, $data = []) {

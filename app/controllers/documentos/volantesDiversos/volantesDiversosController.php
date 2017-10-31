@@ -1,5 +1,5 @@
 <?php
-namespace App\Controllers\Documentos\Volantes;
+namespace App\Controllers\Documentos\VolantesDiversos;
 
 use App\Controllers\Catalogs\Acciones\AccionesController;
 use App\Controllers\Catalogs\BaseController;
@@ -11,18 +11,19 @@ use App\Models\Volantes;
 use \App\Models\Caracteres;
 use App\Models\VolantesDocumentos;
 
-class VolantesController extends BaseController {
+class VolantesDiversosController extends BaseController {
     public function getIndex() {
 
         $volantes = VolantesDocumentos::select('v.idVolante','v.folio','v.subfolio','v.numDocumento','v.idRemitente'
-            ,'v.idTurnado','v.fRecepcion','v.extemporaneo','a.clave','sub.nombre','t.estadoProceso','v.estatus')
+            ,'v.idTurnado','v.fRecepcion','v.extemporaneo','sub.nombre','t.estadoProceso','v.estatus')
             ->join('sia_Volantes as v','v.idVolante','=','sia_volantesDocumentos.idVolante')
             ->join('sia_turnosJuridico as t','t.idVolante','=','v.idVolante'  )
-            ->join('sia_auditorias as a','a.idAuditoria','=','sia_volantesDocumentos.cveAuditoria')
             ->join('sia_catSubTiposDocumentos as sub','sub.idSubTipoDocumento','=','sia_volantesDocumentos.idSubTipoDocumento')
-            ->where('sub.auditoria','SI')->get();
-        return $this->render('/volantes/volantes.twig',['volantes' => $volantes,'sesiones'=> $_SESSION]);
+            ->where('sub.auditoria','NO')->get();
+        return $this->render('/volantesDiversos/volantesDiversos.twig',['volantes' => $volantes,'sesiones'=> $_SESSION]);
     }
+
+
     public function getCreate() {
 
         $documentos = TiposDocumentos::where('estatus','ACTIVO')->where('tipo','JURIDICO')->get();
@@ -33,7 +34,7 @@ class VolantesController extends BaseController {
 
         $subTipos = SubTiposDocumentos::where('estatus','ACTIVO')->get(); //cambiar por evento js
 
-        return $this->render('/volantes/insert-volantes.twig',[
+        return $this->render('/volantesDiversos/insert-volantesDiversos.twig',[
             'sesiones' => $_SESSION,
             'documentos' => $documentos,
             'caracteres' => $caracteres,
@@ -44,27 +45,6 @@ class VolantesController extends BaseController {
         ]);
     }
 
-
-    public function getUpdate($id,$err) {
-        $duplicate = false;
-        $volantes = Volantes::where('idVolante',$id)->first();
-
-        $caracteres = Caracteres::where('estatus','ACTIVO')->get();
-        $acciones = Acciones::where('estatus','ACTIVO')->get();
-        $turnados  = Areas::where('idAreaSuperior','DGAJ')->where('estatus','ACTIVO')->get();
-        $turnadoDireccion = array ('idArea'=>'DGAJ','nombre' => 'DIRECCIÓN GENERAL DE ASUNTOS JURIDICOS');
-
-
-        return $this->render('/volantes/update-volantes.twig',[
-            'sesiones'=> $_SESSION,
-            'volantes'=> $volantes,
-            'caracteres' => $caracteres,
-            'acciones' => $acciones,
-            'turnados' => $turnados,
-            'direccionGral' => $turnadoDireccion,
-            'error' => $err
-        ]);
-    }
 
     public function volantesCreate($post) {
         $fecha=strftime( "%Y-%d-%m", time() );
@@ -94,8 +74,6 @@ class VolantesController extends BaseController {
 
             $volantesDocumentos = new VolantesDocumentos([
                 'idVolante' => $max,
-                'promocion' => $post['promocion'],
-                'cveAuditoria' => $post['cveAuditoria'],
                 'idSubTipoDocumento' => $post['idSubTipoDocumento'],
                 'notaConfronta' => $post['notaConfronta'],
                 'usrAlta' => $_SESSION['idUsuario'],
@@ -109,25 +87,49 @@ class VolantesController extends BaseController {
 
     }
 
+
+    public function getUpdate($id,$err) {
+        $duplicate = false;
+        $volantes = Volantes::where('idVolante',$id)->first();
+
+        $caracteres = Caracteres::where('estatus','ACTIVO')->get();
+        $acciones = Acciones::where('estatus','ACTIVO')->get();
+        $turnados  = Areas::where('idAreaSuperior','DGAJ')->where('estatus','ACTIVO')->get();
+        $turnadoDireccion = array ('idArea'=>'DGAJ','nombre' => 'DIRECCIÓN GENERAL DE ASUNTOS JURIDICOS');
+
+
+        return $this->render('/volantesDiversos/update-volantesDiversos.twig',[
+            'sesiones'=> $_SESSION,
+            'volantes'=> $volantes,
+            'caracteres' => $caracteres,
+            'acciones' => $acciones,
+            'turnados' => $turnados,
+            'direccionGral' => $turnadoDireccion,
+            'error' => $err
+        ]);
+    }
+
+
+
     public function volantesUpdate($post) {
 
 
-            $fecha=strftime( "%Y-%d-%m", time() );
-            Volantes::where('idVolante',$post['idVolante'])->update([
-                'numDocumento' => $post['numDocumento'],
-                'anexos' => $post['anexos'],
-                'fDocumento' => $post['fDocumento'],
-                'fRecepcion' => $post['fRecepcion'],
-                'hRecepcion' => $post['hRecepcion'],
-                'asunto' => $post['asunto'],
-                'idCaracter' => $post['idCaracter'],
-                'idTurnado' => $post['idTurnado'],
-                'idAccion' => $post['idAccion'],
-                'usrModificacion' => $_SESSION['idUsuario'],
-                'fModificacion' => $fecha,
-                'estatus' => $post['estatus']
-            ]);
-            echo $this->getIndex();
+        $fecha=strftime( "%Y-%d-%m", time() );
+        Volantes::where('idVolante',$post['idVolante'])->update([
+            'numDocumento' => $post['numDocumento'],
+            'anexos' => $post['anexos'],
+            'fDocumento' => $post['fDocumento'],
+            'fRecepcion' => $post['fRecepcion'],
+            'hRecepcion' => $post['hRecepcion'],
+            'asunto' => $post['asunto'],
+            'idCaracter' => $post['idCaracter'],
+            'idTurnado' => $post['idTurnado'],
+            'idAccion' => $post['idAccion'],
+            'usrModificacion' => $_SESSION['idUsuario'],
+            'fModificacion' => $fecha,
+            'estatus' => $post['estatus']
+        ]);
+        echo $this->getIndex();
 
 
     }
