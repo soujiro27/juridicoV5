@@ -5,6 +5,6 @@ namespace App\Models;
  class Caracteres extends Model {
      public $timestamps = false;
      protected $table = 'sia_catCaracteres';
-     protected $fillable = ['siglas', 'nombre','usrAlta','fAlta'];
+     protected $fillable = ['siglas', 'nombre','usrAlta','fAlta','estatus'];
 
  }

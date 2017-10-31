@@ -1,6 +1,9 @@
 <?php
 
 include '/../vendor/autoload.php';
+include_once '/../app/routes/caracteres/rutasCaracteres.php';
+include_once '/../app/routes/doctosTextos/rutasDoctosTextos.php';
+include_once '/../app/routes/subTiposDocumentos/rutasSubTiposDocumentos.php';
 
 use  App\Controllers\Catalogs\Caracteres\CaracteresController;
 
@@ -11,8 +14,9 @@ $capsule->addConnection([
     'driver'    => 'sqlsrv',
     'host'      => 'localhost',
     'database'  => 'ascm_sia',
-    'username'  => 'sa',
-    'password'  => '.sqlDemo13.',
+    'username'  => '',
+    'password'  => '
+    ',
     'charset'   => 'utf8',
     'collation' => 'utf8_unicode_ci',
     'prefix'    => '',
@@ -22,21 +26,5 @@ $capsule->setAsGlobal();
 $capsule->bootEloquent();
 
 
-
-
-$app->get('/juridico/Caracteres',function(){
-    $get = new CaracteresController();
-     echo $get->getIndex();
-});
-
-$app->get('/juridico/Caracteres/add',function(){
-    $get = new CaracteresController();
-    echo $get->getCreate();
-});
-
-$app->post('/juridico/Caracteres/add',function() use ($app){
-    $get = new CaracteresController();
-    echo $get->caracterCreate($app->request->post());
-});
 
 
