@@ -8,7 +8,7 @@ include_once '/../app/routes/acciones/rutasAcciones.php';
 include_once  '/../app/routes/volantes/rutasVolantes.php';
 include_once  '/../app/routes/volantesDiversos/rutasVolantesDiversos.php';
 include_once  '/../app/routes/documentos/rutasDocumentos.php';
-
+include_once  '/../app/routes/irac/rutasIrac.php';
 
 use Illuminate\Database\Capsule\Manager as Capsule;
 

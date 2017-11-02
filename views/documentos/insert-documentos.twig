@@ -90,11 +90,12 @@
             </div>
             <div id="main-content" class="widget-content">
 
-                <form id="documentosJur" enctype="multipart/form-data">
+                <form id="documentosJur" enctype="multipart/form-data" method="post" action="./update">
                     <div class="inputs">
                         <div class="form-group folio">
                             <label class="form-control-label" for="documento">Numero de Folio</label>
-                            <input class="form-control" id="folio" type="text" placeholder="Numero de Folio" required="required" name="folio"/>
+                            <input class="form-control" id="folio" type="text" placeholder="Numero de Folio" required="required" />
+                            <input type="hidden" name="idVolante" id="idVolante" value="3209">
                         </div>
                         <div class="form-group file">
                             <input type="file" name="anexoDoc" id="imagen" required="required"/>

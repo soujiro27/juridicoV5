@@ -20,6 +20,25 @@ class DocumentosUploadController extends BaseController {
         $duplicate = false;
         return $this->render('/documentos/insert-documentos.twig',['sesiones'=> $_SESSION]);
     }
+
+
+    public function update($post,$file) {
+        $nombre=$file['anexoDoc']['name'];
+        $extension=explode('.',$nombre);
+        if(move_uploaded_file($file['anexoDoc']['tmp_name'],"juridico/public/files/".$post['idVolante'].'.'.$extension[1]))
+        {
+            $fecha=strftime( "%Y-%d-%m", time() );
+            Volantes::where('idVolante',$post['idVolante'])->update([
+                'anexoDoc' => $post['idVolante'].'.'.$extension[1],
+                'usrModificacion' => $_SESSION['idUsuario'],
+                'fModificacion' => $fecha
+            ]);
+            echo $this->getIndex();
+        }
+
+
+    }
+
 /*
     public function getUpdate($id,$err) {
 
@@ -43,29 +62,12 @@ class DocumentosUploadController extends BaseController {
 
     }
 
-    public function update($post) {
-        $duplicate = $this->duplicate($post);
-        if(empty($duplicate)){
-            $fecha=strftime( "%Y-%d-%m", time() );
-            Acciones::where('idAccion',$post['idAccion'])->update([
-                'nombre' => $post['nombre'],
-                'usrModificacion' => $_SESSION['idUsuario'],
-                'fModificacion' => $fecha,
-                'estatus' => $post['estatus']
-            ]);
-            echo $this->getIndex();
-        }else{
 
-            echo $this->getUpdate($post['idAccion'],true);
-        }
-
-    }
-
+*/
     public function duplicate($post) {
-        $duplicate = Acciones::where('nombre' ,$post['nombre'])
-            ->where('estatus',$post['estatus'])
+        $duplicate = DocumentosUploadController::where('idVolante' ,$post['idVolante'])
             ->first();
         return $duplicate;
     }
-*/
+
 }

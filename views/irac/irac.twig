@@ -85,7 +85,7 @@
                     <div class="order"></div>
                     <div class="selectColumns"></div>
                 </div>
-                <div class="widget-icons pull-right"><a id="addRegister" href="/SIA/juridico/DocumentosGral/update" class="btn btn-info">Añadir Registro</a></div>
+                <div class="widget-icons pull-right"><a id="addRegister" href="/SIA/juridico/Irac/add" class="btn btn-info">Añadir Registro</a></div>
                 <div class="clearfix"></div>
             </div>
             <div id="main-content" class="widget-content">
@@ -95,27 +95,29 @@
                         <th>id</th>
                         <th>Folio</th>
                         <th>Numero de Documento</th>
-                        <th>Tipo de Documento</th>
                         <th>Remitente</th>
-                        <th>Nombre del Archivo</th>
-                        <th>Estado</th>
+                        <th>Fecha Recepcion</th>
+                        <th>Asunto</th>
+                        <th>Caracter</th>
+                        <th>Accion</th>
+                        <th>Auditoria</th>
+                        <th>Extemporaneo</th>
 
                     </tr>
-                    {% for documento in documentos %}
+                    {% for irac in iracs %}
                         <tr>
 
-                            <td>{{ documento.idVolante }}</td>
-                            <td>{{ documento.folio }}</td>
-                            <td>{{ documento.numDocumento }}</td>
-                            <td>{{ documento.nombre }}</td>
-                            <td>{{ documento.idRemitente }}</td>
-                            {% if documento.anexoDoc | length < 1 %}
-                                <td>Sin Asignar</td>
-                            {% else %}
-                                <td>{{ documento.anexoDoc }}</td>
-                            {% endif %}
+                            <td>{{ irac.idVolante }}</td>
+                            <td>{{ irac.folio }}</td>
+                            <td>{{ irac.numDocumento }}</td>
+                            <td>{{ irac.idRemitente }}</td>
+                            <td>{{ irac.fRecepcion }}</td>
+                            <td>{{ irac.asunto }}</td>
+                            <td>{{ irac.caracter }}</td>
+                            <td>{{ irac.accion }}</td>
+                            <td>{{ irac.clave }}</td>
+                            <td>{{ irac.extemporaneo }}</td>
 
-                            <td>{{ documento.estadoProceso }}</td>
 
                         </tr>
                     {% endfor %}

@@ -85,7 +85,15 @@
                     <div class="order"></div>
                     <div class="selectColumns"></div>
                 </div>
-                <div class="widget-icons pull-right"><a id="addRegister" href="/SIA/juridico/DocumentosGral/update" class="btn btn-info">Añadir Registro</a></div>
+                <div class="widget-icons pull-right">
+                    <a id="addRegister" href="/SIA/juridico/CedulaIrac/add/{{ idVolante }}" class="btn btn-warning">
+                        Generar Cedula
+                    </a>
+                    <a id="addRegister" href="/SIA/juridico/observacionesIrac/add/{{ idVolante }}" class="btn btn-info">
+                        Añadir Registro
+                    </a>
+
+                </div>
                 <div class="clearfix"></div>
             </div>
             <div id="main-content" class="widget-content">
@@ -93,29 +101,22 @@
                 <table class="table highlight">
                     <tr>
                         <th>id</th>
-                        <th>Folio</th>
-                        <th>Numero de Documento</th>
-                        <th>Tipo de Documento</th>
-                        <th>Remitente</th>
-                        <th>Nombre del Archivo</th>
-                        <th>Estado</th>
+                        <th>Pagina</th>
+                        <th>Parrafo</th>
+                        <th>Observacion</th>
+                        <th>Estatus</th>
 
                     </tr>
-                    {% for documento in documentos %}
+                    {% for observacion in observaciones %}
                         <tr>
 
-                            <td>{{ documento.idVolante }}</td>
-                            <td>{{ documento.folio }}</td>
-                            <td>{{ documento.numDocumento }}</td>
-                            <td>{{ documento.nombre }}</td>
-                            <td>{{ documento.idRemitente }}</td>
-                            {% if documento.anexoDoc | length < 1 %}
-                                <td>Sin Asignar</td>
-                            {% else %}
-                                <td>{{ documento.anexoDoc }}</td>
-                            {% endif %}
+                            <td>{{ observacion.idObservacionDoctoJuridico }}</td>
+                            <td>{{ observacion.pagina }}</td>
+                            <td>{{ observacion.parrafo }}</td>
+                            <td>{{ observacion.observacion }}</td>
+                            <td>{{ observacion.estatus }}</td>
 
-                            <td>{{ documento.estadoProceso }}</td>
+
 
                         </tr>
                     {% endfor %}
