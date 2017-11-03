@@ -1,5 +1,5 @@
 <?php
-namespace App\Controllers\Documentos\Irac;
+namespace App\Controllers\Documentos\Ifa;
 
 use App\Controllers\Catalogs\BaseController;
 use App\Models\DocumentosSiglas;
@@ -8,7 +8,7 @@ use App\Models\Volantes;
 use App\Models\PuestosJuridico;
 use App\Models\VolantesDocumentos;
 
-class IracController extends BaseController {
+class IfaController extends BaseController {
     public function getIndex()
     {
         $id = $_SESSION['idEmpleado'];
@@ -18,24 +18,24 @@ class IracController extends BaseController {
 
         $iracs = Volantes::select('sia_Volantes.idVolante','sia_Volantes.folio',
             'sia_Volantes.numDocumento','sia_Volantes.idRemitente','sia_Volantes.fRecepcion','sia_Volantes.asunto'
-        ,'c.nombre as caracter','a.nombre as accion','audi.clave','sia_Volantes.extemporaneo')
+            ,'c.nombre as caracter','a.nombre as accion','audi.clave','sia_Volantes.extemporaneo')
             ->join('sia_catCaracteres as c','c.idCaracter','=','sia_Volantes.idCaracter')
             ->join('sia_CatAcciones as a','a.idAccion','=','sia_Volantes.idAccion')
             ->join('sia_VolantesDocumentos as vd','vd.idVolante','=','sia_Volantes.idVolante')
             ->join('sia_auditorias as audi','audi.idAuditoria','=','vd.cveAuditoria')
             ->join( 'sia_catSubTiposDocumentos as sub','sub.idSubTipoDocumento','=','vd.idSubTipoDocumento')
-            ->where('sub.nombre','=','IRAC')
+            ->where('sub.nombre','=','IFA')
             ->where('sia_volantes.idTurnado','=',"$areaUsuario")
             ->get();
 
 
-        return $this->render('/irac/irac.twig',['iracs' => $iracs,'sesiones'=> $_SESSION]);
+        return $this->render('/ifa/ifa.twig',['iracs' => $iracs,'sesiones'=> $_SESSION]);
     }
 
-    public function getObervaciones($idVolante)
+    public function getObservaciones($idVolante)
     {
         $observaciones = ObservacionesDoctosJuridico::all()->where('idVolante','=',"$idVolante");
-        return $this->render('/irac/Observaciones.twig',['observaciones' => $observaciones,'idVolante' => $idVolante]);
+        return $this->render('/ifa/Observaciones.twig',['observaciones' => $observaciones,'idVolante' => $idVolante]);
     }
 
 
@@ -59,6 +59,7 @@ class IracController extends BaseController {
             'pagina' => $post['pagina'],
             'parrafo' => $post['parrafo'],
             'observacion' => $post['observacion'],
+            'idDocumentoTexto' => $post['idDocumentoTexto'],
             'usrAlta' => $_SESSION['idUsuario'],
             'fAlta' => $fecha
         ]);
@@ -70,7 +71,7 @@ class IracController extends BaseController {
     public function getUpdateObservacion($id,$err) {
 
         $observacion = ObservacionesDoctosJuridico::where('idObservacionDoctoJuridico','=',"$id")->first();
-        return $this->render('/irac/update-observaciones.twig',[
+        return $this->render('/ifa/update-observaciones.twig',[
             'sesiones'=> $_SESSION,
             'observacion'=> $observacion,
             'error' => $err
@@ -79,16 +80,17 @@ class IracController extends BaseController {
 
     public function observacionUpdate($post) {
 
-            $fecha=strftime( "%Y-%d-%m", time() );
-            ObservacionesDoctosJuridico::where('idObservacionDoctoJuridico',$post['idObservacionDoctoJuridico'])
-                ->update(['pagina' => $post['pagina'],
-                    'parrafo' => $post['parrafo'],
-                    'observacion' => $post['observacion'],
+        $fecha=strftime( "%Y-%d-%m", time() );
+        ObservacionesDoctosJuridico::where('idObservacionDoctoJuridico',$post['idObservacionDoctoJuridico'])
+            ->update(['pagina' => $post['pagina'],
+                'parrafo' => $post['parrafo'],
+                'observacion' => $post['observacion'],
                 'usrModificacion' => $_SESSION['idUsuario'],
+                'idDocumentoTexto' => $post['idDocumentoTexto'],
                 'fModificacion' => $fecha,
                 'estatus' => $post['estatus']
             ]);
-            echo $this->getIndex();
+        echo $this->getIndex();
 
 
     }
@@ -108,13 +110,13 @@ class IracController extends BaseController {
             ->where('titular','=','NO');
 
         if(empty($datosCedula)){
-            return $this->render('/irac/insert-Cedula.twig',['sesiones'=> $_SESSION,
+            return $this->render('/ifa/insert-Cedula.twig',['sesiones'=> $_SESSION,
                 'puestos' => $puestos,
                 'idVolante' => $idVolante,
                 'idSubTipoDocumento' => $idSubTipoDocumento]);
         }
         else{
-                return $this->render('/irac/update-cedula.twig',['datosCedula' => $datosCedula]);
+            return $this->render('/ifa/update-cedula.twig',['datosCedula' => $datosCedula]);
         }
     }
 
@@ -132,6 +134,7 @@ class IracController extends BaseController {
             'idPuestosJuridico' => $post['idPuestosJuridico'],
             'fOficio' => $post['fOficio'],
             'numFolio' => $post['numFolio'],
+            'idDocumentoTexto' => $post['idDocumentoTexto'],
             'usrAlta' => $_SESSION['idUsuario'],
             'fAlta' => $fecha
         ]);
@@ -148,7 +151,8 @@ class IracController extends BaseController {
                 'numFolio' => $post['numFolio'],
                 'usrModificacion' => $_SESSION['idUsuario'],
                 'fModificacion' => $fecha,
-                'idPuestosJuridico' => $post['idPuestosJuridico']
+                'idPuestosJuridico' => $post['idPuestosJuridico'],
+                'idDocumentoTexto' => $post['idDocumentoTexto']
             ]);
         echo $this->getIndex();
     }

@@ -47,6 +47,11 @@ $app->post('/juridico/CedulaIrac/add',function() use ($app){
 });
 
 
+$app->post('/juridico/CedulaIrac/update',function() use ($app){
+    $get = new IracController();
+    echo $get->cedulaUpdate($app->request->post());
+});
+
 /*
 $app->get('/juridico/Acciones/add',function(){
     $get = new AccionesController();

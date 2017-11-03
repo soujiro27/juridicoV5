@@ -3,6 +3,7 @@ namespace App\Controllers\Documentos\DocumentosUpload;
 
 use App\Controllers\Catalogs\BaseController;
 use App\Models\Volantes;
+use App\Models\PuestosJuridico;
 
 class DocumentosUploadController extends BaseController {
     public function getIndex() {
@@ -39,35 +40,29 @@ class DocumentosUploadController extends BaseController {
 
     }
 
-/*
-    public function getUpdate($id,$err) {
 
-        $accion = Acciones::where('idAccion',$id)->first();
-        return $this->render('/Acciones/update-acciones.twig',[
-            'sesiones'=> $_SESSION,
-            'accion'=> $accion,
-            'error' => $err
-        ]);
-    }
-
-    public function create($post) {
-        $fecha=strftime( "%Y-%d-%m", time() );
-        $acciones = new Acciones([
-            'nombre' => $post['nombre'],
-            'usrAlta' => $_SESSION['idUsuario'],
-            'fAlta' => $fecha
-        ]);
-        $acciones->save();
-        echo $this->getIndex();
-
-    }
-
-
-*/
     public function duplicate($post) {
         $duplicate = DocumentosUploadController::where('idVolante' ,$post['idVolante'])
             ->first();
         return $duplicate;
+    }
+
+    public function getIndexDocumentos() {
+
+        $id = $_SESSION['idEmpleado'];
+        $areas = PuestosJuridico::all()->where('rpe','=',"$id");
+        foreach ($areas as $area) {$areaUsuario=$area['idArea'];}
+
+
+        $documentos = Volantes::select('sia_volantes.idVolante','sia_volantes.folio','sia_volantes.numDocumento',
+            'sub.nombre','sia_volantes.idRemitente','sia_volantes.anexoDoc','t.estadoProceso')
+            ->join('sia_VolantesDocumentos as vd','vd.idVolante','=','sia_volantes.idVolante')
+            ->join('sia_catSubTiposDocumentos as sub','sub.idSubTipoDocumento','=','vd.idSubTipoDocumento')
+            ->join('sia_turnosJuridico as t','t.idVolante','=','sia_volantes.idVolante')
+            ->where('sia_Volantes.idTurnado','=',"$areaUsuario")
+            ->get();
+
+        return $this->render('/documentos/documentos.twig',['documentos' => $documentos,'sesiones'=> $_SESSION]);
     }
 
 }

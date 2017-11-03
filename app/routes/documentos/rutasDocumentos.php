@@ -17,6 +17,12 @@ $app->post('/juridico/DocumentosGral/update',function() use ($app){
     echo $get->update($app->request->post(),$_FILES);
 });
 
+$app->get('/juridico/Documentos',function(){
+    $get = new DocumentosUploadController();
+    echo $get->getIndexDocumentos();
+});
+
+
 /*
 $app->post('/juridico/Acciones/add',function() use ($app){
     $get = new AccionesController();

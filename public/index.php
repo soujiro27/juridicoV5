@@ -9,6 +9,9 @@ include_once  '/../app/routes/volantes/rutasVolantes.php';
 include_once  '/../app/routes/volantesDiversos/rutasVolantesDiversos.php';
 include_once  '/../app/routes/documentos/rutasDocumentos.php';
 include_once  '/../app/routes/irac/rutasIrac.php';
+include_once  '/../app/routes/ifa/rutasIfa.php';
+include_once  '/../app/routes/confronta/rutasConfronta.php';
+include_once  '/../app/routes/plantillas/rutasPlantillas.php';
 
 use Illuminate\Database\Capsule\Manager as Capsule;
 

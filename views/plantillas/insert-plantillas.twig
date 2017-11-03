@@ -14,7 +14,7 @@
         <div class="container-fluid">
             <nav role="navigation" class="collapse navbar-collapse bs-navbar-collapse">
                 <div class="col-xs-12"></div>
-                <div class="col-xs-2"><a href="/SIA/"><img src="/SIA/juridico/public/img/logo-top.png"/></a></div>
+                <div class="col-xs-2"><a href="/SIA/"><img src="../public/img/logo-top.png"/></a></div>
                 <div class="col-xs-2">
                     <ul class="nav navbar-nav">
                         <li><a href="#" id="CuentaPublica"><i class="fa fa-th-list"></i>
@@ -64,8 +64,8 @@
         <li id="OBSERVACIONES" style="display:none;" class="has_sub"><a href=""><i class="fa fa-cogs"></i> Acciones<span class="pull-right"><i class="fa fa-chevron-right"></i></span></a>
             <ul id="OBSERVACIONES-UL"></ul>
         </li>
-        <li id="CONFIGURACION" style="display:block;" class="has_sub"><a href="#!"><i class="fa fa-pencil-square-o"></i> Catálogos<span class="pull-right"><i class="fa fa-chevron-right"></i></span></a>
-
+        <li id="CONFIGURACION" style="display:none;" class="has_sub"><a href=""><i class="fa fa-pencil-square-o"></i> Catálogos<span class="pull-right"><i class="fa fa-chevron-right"></i></span></a>
+            <ul id="CONFIGURACION-UL"></ul>
         </li>
         <li id="REPORTEADOR" style="display:none;" class="has_sub"><a href=""><i class="fa fa-file-text-o"></i> Informes<span class="pull-right"><i class="fa fa-chevron-right"></i></span></a>
             <ul id="REPORTEADOR-UL"></ul>
@@ -85,39 +85,47 @@
                     <div class="order"></div>
                     <div class="selectColumns"></div>
                 </div>
-                <div class="widget-icons pull-right"><a id="addRegister" href="/SIA/juridico/DocumentosGral/add" class="btn btn-info">Añadir Registro</a></div>
+                <div class="widget-icons pull-right"><a id="addRegister" href="./Caracteres/add" class="btn btn-info">Añadir Registro</a></div>
                 <div class="clearfix"></div>
             </div>
             <div id="main-content" class="widget-content">
+<form class="form-inline" method="post" action="./../add">
+    <div class="form-group numFolio">
+        <label for="numFolio">Numero de Folio</label>
+       <input type="text" name="numFolio" placeholder="Numero de Folio" id="numFolio">
+    </div>
+    <div class="form-group asunto">
+        <label for="asunto">Asunto</label>
+        <input type="text" name="asunto" placeholder="Asunto" id="asunto">
+    </div>
+    <div class="form-group fOficio">
+        <label for="fOficio">Fecha Documento</label>
+        <input type="text" name="fOficio" placeholder="Fecha Oficio" id="fOficio">
+    </div>
+    <div class="form-group siglas">
+        <label for="siglas">Siglas</label>
+        <input type="text" name="siglas" placeholder="siglas" id="siglas">
+    </div>
+    <div class="form-group texto">
+        <label for="numFolio">Texto</label>
+        <textarea name="texto" id="texto" placeholder="Texto"></textarea>
+        <input type="hidden" name="idRemitente" value="1">
+        <input type="hidden" name="idVolante" value="{{ idVolante }}">
+        <input type="hidden" name="copias" value="1,3">
+    </div>
+    <div class="form-group send">
+        <input class="btn btn-primary btn-sm" type="submit" value="Guardar"/>
+        <button class="btn btn-danger btn-sm" id="cancelar">Cancelar</button>
+    </div>
+</form>
 
-                <form id="documentosJur" enctype="multipart/form-data" method="post" action="./update">
-                    <div class="inputs">
-                        <div class="form-group folio">
-                            <label class="form-control-label" for="documento">Numero de Folio</label>
-                            <input class="form-control" id="folio" type="text" placeholder="Numero de Folio" required="required" />
-                            <input type="hidden" name="idVolante" id="idVolante" value="3210">
-                        </div>
-                        <div class="form-group file">
-                            <input type="file" name="anexoDoc" id="imagen" required="required"/>
-                            <div><span><i class="fa fa-upload" aria-hidden="true"></i></span><span class="titulo">Selecciona Archivo</span></div>
-                        </div>
-                    </div>
-                    <div class="documento">
-                        <div>
-                            <p>Documento Asignado</p>
-                        </div>
-                        <div class="documento-datos">
-                            <div class="icon"><img src="../img/file.png"/></div>
-                            <div class="nombre">
-                                <p>Sin Documentos</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form-group send">
-                        <input class="btn btn-info" type="submit" value="Guardar"/>
-                        <button class="btn btn-danger btn-sm" id="cancelar">Cancelar</button>
-                    </div>
-                </form>
+
+
+
+
+
+
+
 
             </div>
         </div>
@@ -128,6 +136,8 @@
 
 </body>
 </html>
+
+
 
 
 
